@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.Practices.ObjectBuilder2;
 using Prism.Commands;
 using TreeView.DataAccess;
 using TreeView.Models;
@@ -53,9 +48,22 @@ namespace TreeView.ViewModels {
             }
 
         private void OnLoad() {
-            MessageBox.Show("On Load");
+            IEnumerable<int> rnd = GetSequence(5, 10);
+            Random r = new Random();
+            //https://www.quora.com/How-do-I-generate-a-list-of-random-integers-without-repeating-in-C
+
+            foreach (int i in rnd) {
+                MessageBox.Show(i.ToString());
+            }
+            
         }
+
+        private static Random _random = new Random();
+
+        private static IEnumerable<int> GetSequence(int size, int max) {
+            return Enumerable.Range(_random.Next(max - (size - 1)), size);
         }
+    }
 
 
 
