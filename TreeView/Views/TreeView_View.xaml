@@ -14,7 +14,7 @@
 
         <!--=================================================================
      TreeViewItem
-  ==================================================================-->
+            ==================================================================-->
         <Style x:Key="ExpandCollapseToggleStyle" TargetType="ToggleButton">
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="Template">
@@ -48,6 +48,8 @@
         <Style x:Key="{x:Type TreeViewItem}" TargetType="{x:Type TreeViewItem}">
             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
             <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+            <Setter Property="Visibility" Value="{Binding IsVisible, Mode=TwoWay}"/>
+            <Setter Property="Foreground" Value="{Binding Foreground}"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalContentAlignment" 
                     Value="{Binding Path=HorizontalContentAlignment,
@@ -57,8 +59,8 @@
                     RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
             <Setter Property="Padding"
                     Value="1,0,0,0"/>
-            <Setter Property="Foreground"
-                    Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <!--<Setter Property="Foreground"
+                    Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>-->
             <Setter Property="FocusVisualStyle"
                     Value="{StaticResource TreeViewItemFocusVisual}"/>
             <Setter Property="Template">
@@ -189,9 +191,9 @@
             </Border.Background>
 
             <StackPanel HorizontalAlignment="Center" Margin="4" Orientation="Horizontal" >
-                <TextBlock Text="Search for:" />
-                <TextBox x:Name="searchTextBox"  Margin="6,0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="150" />
-                <Button Command="{Binding SearchCommand}" Content="_Find" Padding="8,0" />
+                <Button Command="{Binding LoadCommand}" Content="Load"/>
+                <TextBox x:Name="searchTextBox"  Margin="6,0" Text="{Binding TextFilterValue, UpdateSourceTrigger=PropertyChanged}" Width="150" />
+                <Button Command="{Binding FilterCommand}" Content="_Find" Padding="8,0" />
             </StackPanel>
         </Border>
 

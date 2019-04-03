@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Media;
 using Prism.Mvvm;
 
 namespace TreeView.ViewModels {
@@ -10,44 +12,33 @@ namespace TreeView.ViewModels {
 
        #region Data
 
-       static readonly TreeViewItemViewModel DummyChild = new TreeViewItemViewModel();
-
        readonly ObservableCollection<TreeViewItemViewModel> _childrens;
        readonly TreeViewItemViewModel _parent;
 
        bool _isExpanded;
        bool _isSelected;
+       Visibility _isVisible;
+       Brush _foregraund=Brushes.Black;
 
         #endregion // Data
 
        #region Ctor
 
-       protected TreeViewItemViewModel(TreeViewItemViewModel parent, bool lazyLoadChildren) {
+       protected TreeViewItemViewModel(TreeViewItemViewModel parent) {
            _parent = parent;
 
            _childrens = new ObservableCollection<TreeViewItemViewModel>();
-
-           if (lazyLoadChildren)
-               _childrens.Add(DummyChild);
        }
+        public TreeViewItemViewModel Parent => _parent;
 
-       // This is used to create the DummyChild instance.
-       private TreeViewItemViewModel() {
-       }
-        #endregion // Ctor
+        #endregion //Ctor
 
-       /// <summary>
+        /// <summary>
         /// Returns the logical child items of this object.
         /// </summary>
         public ObservableCollection<TreeViewItemViewModel> Childrens => _childrens;
 
-        /// <summary>
-        /// Returns true if this object's Children have not yet been populated.
-        /// </summary>
-        public bool HasDummyChild =>
-            Childrens.Count == 1 && Childrens[0] == DummyChild; 
-
-  
+        
         /// <summary>
         /// Gets/sets whether the TreeViewItem 
         /// associated with this object is expanded.
@@ -63,12 +54,6 @@ namespace TreeView.ViewModels {
                 // Expand all the way up to the root.
                 if (_isExpanded && _parent != null)
                     _parent.IsExpanded = true;
-
-                // Lazy load the child items, if necessary.
-                if (HasDummyChild) {
-                    Childrens.Remove(DummyChild);
-                    LoadChildren();
-                }
             }
         }
 
@@ -86,13 +71,26 @@ namespace TreeView.ViewModels {
             }
         }
 
-        /// <summary>
-        /// Invoked when the child items need to be loaded on demand.
-        /// Subclasses can override this to populate the Children collection.
-        /// </summary>
-        protected virtual void LoadChildren() { }
+        public Visibility IsVisible {
+            get => _isVisible;
+            set {
+                if (value != _isVisible) {
+                    _isVisible = value;
+                    RaisePropertyChanged(nameof(IsVisible));
+                }
+            }
+        }
 
-        public TreeViewItemViewModel Parent => _parent;
-   
+        public Brush Foreground {
+            get => _foregraund;
+            set {
+                if (value != _foregraund) {
+                    _foregraund = value;
+                    RaisePropertyChanged(nameof(Foreground));
+                } }
+        }
+        public virtual void ApplyFilter(string filterValue) {
+        }
+
     }
 }
