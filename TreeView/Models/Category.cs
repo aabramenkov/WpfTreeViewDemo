@@ -9,7 +9,7 @@ namespace TreeView.Models {
     public class Category {
 
         public IEnumerable<Item> Items;
-
+        public int ID;
         public string Name;
             
     }

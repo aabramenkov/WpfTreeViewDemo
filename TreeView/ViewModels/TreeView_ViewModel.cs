@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Prism.Commands;
+using Prism.Mvvm;
 using TreeView.DataAccess;
 using TreeView.Models;
 
@@ -12,25 +14,23 @@ namespace TreeView.ViewModels {
     /// The ViewModel for the LoadOnDemand demo.  This simply
     /// exposes a read-only collection of regions.
     /// </summary>
-    public class TreeView_ViewModel {
+    public class TreeView_ViewModel : BindableBase {
         #region Data
-        private ICollection<CategoryViewModel> _categories;
+        private ObservableCollection<CategoryViewModel> _categories;
         private string _textFilterValue;
+        private Database _db;
         #endregion //Data
 
         #region Ctor
-        public TreeView_ViewModel() {
-            _categories = new List<CategoryViewModel>();
-            foreach (Category category in Database.GetCategoryTree()) {
-                _categories.Add(new CategoryViewModel(category));
-            }
-
+        public TreeView_ViewModel(Database db) {
+            _db=db;
+            _categories = new ObservableCollection<CategoryViewModel>();
             FilterCommand = new DelegateCommand(OnFilter, () => true);
             LoadCommand=new DelegateCommand(OnLoad,()=>true);
         }
         #endregion //Ctor
 
-        public ICollection<CategoryViewModel> Categories => _categories;
+        public ObservableCollection<CategoryViewModel> Categories => _categories;
 
         public string TextFilterValue {
             get => _textFilterValue;
@@ -48,26 +48,16 @@ namespace TreeView.ViewModels {
             }
 
         private void OnLoad() {
-            IEnumerable<int> rnd = GetSequence(5, 10);
-            Random r = new Random();
-            //https://www.quora.com/How-do-I-generate-a-list-of-random-integers-without-repeating-in-C
-
-            foreach (int i in rnd) {
-                MessageBox.Show(i.ToString());
+            foreach (Category category in _db.GetCategoryTree()) {
+                _categories.Add(new CategoryViewModel(category));
             }
-            
+
+            MessageBox.Show(_categories.Count.ToString());
+            RaisePropertyChanged(nameof(Categories));
         }
-
-        private static Random _random = new Random();
-
-        private static IEnumerable<int> GetSequence(int size, int max) {
-            return Enumerable.Range(_random.Next(max - (size - 1)), size);
-        }
-    }
-
-
 
         
-        }
+    }
+}
    
 
