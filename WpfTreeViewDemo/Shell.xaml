@@ -3,12 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
+        Width="800"
         Title="Alex Abramenkov TreeView Test">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="350"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
             <ContentControl prism:RegionManager.RegionName="TreeViewRegion" Grid.Column="0" />
+        <TextBlock Grid.Column="1" Margin="10">
+            Test by Alex Abramenkov, Ukraine<LineBreak/>
+            Using: <LineBreak/> 
+            MVVM: Prism 6.3 <LineBreak/>
+            DI: Prism.Unity<LineBreak/>
+            <LineBreak/>
+            Main Idea:<LineBreak/>
+            <Hyperlink 
+                NavigateUri="https://www.codeproject.com/Articles/26288/Simplifying-the-WPF-TreeView-by-Using-the-ViewMode"
+                RequestNavigate="Hyperlink_RequestNavigate">
+                codeproject.com/Simplifying-the-WPF-TreeView-by-Using-the-ViewMode
+            </Hyperlink>
+             <LineBreak/>
+            <LineBreak/>
+            Highlight whole TreeViewItem line in WPF:<LineBreak/>
+            <Hyperlink 
+                NavigateUri="https://stackoverflow.com/questions/664632/highlight-whole-treeviewitem-line-in-wpf"
+                RequestNavigate="Hyperlink_RequestNavigate">
+                stackoverflow.com/highlight-whole-treeviewitem-line-in-wpf
+            </Hyperlink>
+             <LineBreak/>
+            <LineBreak/>
+            Contact:<LineBreak/>
+            email: aleksey.abramenkov@gmail.com<LineBreak/>
+            skype: alex_abramenkov<LineBreak/>
+            Upwork:
+            <Hyperlink 
+                NavigateUri="https://www.upwork.com/fl/alexabramenkov"
+                RequestNavigate="Hyperlink_RequestNavigate">
+                https://www.upwork.com/fl/alexabramenkov
+            </Hyperlink>
+            <LineBreak/>
+           </TextBlock>
     </Grid>
 </Window>

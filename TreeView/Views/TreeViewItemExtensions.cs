@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace TreeView.Views {
+    /// <summary>
+    /// Class using for Full line highlight in TreeView
+    /// Magic
+    /// </summary>
     public static class TreeViewItemExtensions {
         public static int GetDepth(this TreeViewItem item) {
             TreeViewItem parent;

@@ -85,7 +85,7 @@
     <Compile Include="TreeViewModule.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
-    <Compile Include="ViewModels\StringExtensions.cs" />
+    <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="ViewModels\TreeViewItemViewModel.cs" />
     <Compile Include="ViewModels\TreeView_ViewModel.cs" />
     <Compile Include="Views\LeftMarginMultiplierConverter.cs" />

@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using TreeView.Common;
 using TreeView.Models;
 
 namespace TreeView.ViewModels {
+    /// <summary>
+    /// View Model for Item
+    /// </summary>
     public class ItemViewModel : TreeViewItemViewModel {
         private Item _item;
 
@@ -20,6 +19,12 @@ namespace TreeView.ViewModels {
 
         public string Name => _item.Name;
 
+        /// <summary>
+        /// Main filter.
+        /// Set View visibility, foreground 
+        /// Note: i have to check parent's InFilter property and change parents IsExpanded
+        /// </summary>
+        /// <param name="filterValue"></param>
         public override void ApplyFilter(string filterValue) {
             if (string.IsNullOrEmpty(filterValue)) {
                 base.Foreground = Brushes.Black;

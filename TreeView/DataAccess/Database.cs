@@ -1,29 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using TreeView.Models;
 
 namespace TreeView.DataAccess {
-    public   class Database {
+    
+    /// <summary>
+    /// This class store Category list.
+    /// Class registered as Unity singleton in Bootstrapper
+    /// Frankly speaking this class more repository then db.
+    /// </summary>
+
+    public  class Database {
 
         private Dictionary<int, Category> _categories;
-        //private List<Category> _categories;
 
         public   Database() {
             _categories=new Dictionary<int, Category>();
         }
-
+        /// <summary>
+        /// Method return List of Category with Items
+        /// use Dictionary int,Category to control unique of categories name
+        /// </summary>
+        /// <returns></returns>
         public List<Category> GetCategoryTree() {
-
+            // new Random instance for every category. Use instance in GenerateItemsList
             var seed = (int)DateTime.Now.Ticks;
             var rand = new Random(seed);
 
-            int maxValue;
-            if (_categories.Count == 0) {
-                maxValue = 0;
-            }
-            else {
+            int maxValue=0;
+            if (_categories.Count != 0) {
                 maxValue =_categories.Keys.Max();
             }
 
@@ -38,6 +44,11 @@ namespace TreeView.DataAccess {
             return _categories.Values.ToList();
         }
 
+        /// <summary>
+        /// Method return list of Items. Using Hashset to guarantee unique values for Items
+        /// </summary>
+        /// <param name="rand"></param>
+        /// <returns></returns>
         private  List<Item> GenerateItemsList(Random rand) {
             var hs = new HashSet<int>();
             while (hs.Count < 10) {
@@ -51,9 +62,6 @@ namespace TreeView.DataAccess {
 
             return result;
         }
-
-        public  IEnumerable<Item> GetItems(Category _category) {
-            return _category.Items;
-        }
+        
     }
 }

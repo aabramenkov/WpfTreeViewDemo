@@ -15,7 +15,9 @@ using System.Windows.Shapes;
 
 namespace TreeView.Views {
     /// <summary>
-    /// Interaction logic for TreeView_View.xaml
+    /// Here is nothing.
+    /// Context = TreeView_ViewModel class
+    /// Binding initiated in xaml => mvvm:ViewModelLocator.AutoWireViewModel="True"
     /// </summary>
     public partial class TreeView_View : UserControl {
         public TreeView_View() {

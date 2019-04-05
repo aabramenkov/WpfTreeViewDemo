@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
 
 namespace TreeView.Views {
+    /// <summary>
+    /// Class using for Full line highlight in TreeView
+    /// Magic
+    /// </summary>
     public class LeftMarginMultiplierConverter : IValueConverter {
         public double Length { get; set; }
 

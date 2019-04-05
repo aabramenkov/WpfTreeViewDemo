@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
-using Microsoft.Practices.ObjectBuilder2;
+using TreeView.Common;
 using TreeView.Models;
 
 namespace TreeView.ViewModels {
+
+    /// <summary>
+    /// View Model for Category. 
+    /// </summary>
     public class CategoryViewModel : TreeViewItemViewModel{
         private Category _category;
         
@@ -17,6 +21,10 @@ namespace TreeView.ViewModels {
 
         public string Name => _category.Name;
 
+        /// <summary>
+        /// Main filter.
+        /// </summary>
+        /// <param name="filterValue"></param>
 
         public override void ApplyFilter(string filterValue) {
             if (String.IsNullOrEmpty(filterValue)) {
