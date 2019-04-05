@@ -11,6 +11,5 @@ namespace TreeView.Models {
         public IEnumerable<Item> Items;
         public int ID;
         public string Name;
-            
     }
 }

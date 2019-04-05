@@ -21,15 +21,23 @@ namespace TreeView.ViewModels {
         public string Name => _item.Name;
 
         public override void ApplyFilter(string filterValue) {
-            if ( _item.Name.Contains(filterValue)) {
+            if (string.IsNullOrEmpty(filterValue)) {
+                base.Foreground = Brushes.Black;
+                base.IsVisible = Visibility.Visible;
+                return;
+            }
+
+            if ( _item.Name.Contains(filterValue, StringComparison.OrdinalIgnoreCase)) {
                 base.Foreground = Brushes.Green;
                 Parent.IsVisible = Visibility.Visible;
                 Parent.IsExpanded = true;
                 base.IsVisible = Visibility.Visible;
             }
             else { 
+                if (!Parent.InFilter){ 
                 base.IsVisible = Visibility.Collapsed;
                 base.Foreground = Brushes.Black;
+                }
             }
 
         }

@@ -12,13 +12,14 @@ namespace TreeView.ViewModels {
 
        #region Data
 
-       readonly ObservableCollection<TreeViewItemViewModel> _childrens;
+       readonly ObservableCollection<TreeViewItemViewModel> _children;
        readonly TreeViewItemViewModel _parent;
 
-       bool _isExpanded;
-       bool _isSelected;
-       Visibility _isVisible;
-       Brush _foregraund=Brushes.Black;
+        private bool _isExpanded;
+        private bool _isSelected;
+        private Visibility _isVisible;
+        private Brush _foreground =Brushes.Black;
+        private bool _inFilter;
 
         #endregion // Data
 
@@ -27,7 +28,7 @@ namespace TreeView.ViewModels {
        protected TreeViewItemViewModel(TreeViewItemViewModel parent) {
            _parent = parent;
 
-           _childrens = new ObservableCollection<TreeViewItemViewModel>();
+           _children = new ObservableCollection<TreeViewItemViewModel>();
        }
         public TreeViewItemViewModel Parent => _parent;
 
@@ -36,7 +37,7 @@ namespace TreeView.ViewModels {
         /// <summary>
         /// Returns the logical child items of this object.
         /// </summary>
-        public ObservableCollection<TreeViewItemViewModel> Childrens => _childrens;
+        public ObservableCollection<TreeViewItemViewModel> Children => _children;
 
         
         /// <summary>
@@ -47,8 +48,7 @@ namespace TreeView.ViewModels {
             get => _isExpanded; 
             set {
                 if (value != _isExpanded) {
-                    _isExpanded = value;
-                    RaisePropertyChanged(nameof(IsExpanded));
+                    SetProperty(ref _isExpanded, value);
                 }
 
                 // Expand all the way up to the root.
@@ -65,8 +65,7 @@ namespace TreeView.ViewModels {
             get => _isSelected; 
             set {
                 if (value != _isSelected) {
-                    _isSelected = value;
-                    RaisePropertyChanged(nameof(IsSelected));
+                    SetProperty(ref _isSelected,value);
                 }
             }
         }
@@ -75,20 +74,26 @@ namespace TreeView.ViewModels {
             get => _isVisible;
             set {
                 if (value != _isVisible) {
-                    _isVisible = value;
-                    RaisePropertyChanged(nameof(IsVisible));
+                    SetProperty(ref _isVisible,value);
                 }
             }
         }
 
-        public Brush Foreground {
-            get => _foregraund;
-            set {
-                if (value != _foregraund) {
-                    _foregraund = value;
-                    RaisePropertyChanged(nameof(Foreground));
-                } }
+        public bool InFilter {
+            get => _inFilter;
+            set => SetProperty(ref _inFilter, value);
         }
+        
+    
+        public Brush Foreground {
+            get => _foreground;
+            set {
+                if (value != _foreground) {
+                    SetProperty(ref _foreground,value);
+                }
+            }
+        }
+
         public virtual void ApplyFilter(string filterValue) {
         }
 

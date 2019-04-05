@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:TreeView.Views"
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:viewModels="clr-namespace:TreeView.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -138,14 +140,13 @@
     </UserControl.Resources>
 
     <Grid>
-<Grid.RowDefinitions>
-    <RowDefinition Height="*"/>
-    <RowDefinition Height="100"/>
-    <RowDefinition></RowDefinition>
-</Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
         
         
-        <TreeView ItemsSource="{Binding Categories}" Grid.Row="0" >
+        <TreeView ItemsSource="{Binding Categories}" Grid.Row="0" Margin="5">
             
             <!--
             <TreeView.ItemContainerStyle>
@@ -165,7 +166,7 @@
             <TreeView.Resources>
                 <HierarchicalDataTemplate 
                     DataType="{x:Type viewModels:CategoryViewModel}" 
-                    ItemsSource="{Binding Childrens}">
+                    ItemsSource="{Binding Children}">
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Name}" />
@@ -182,7 +183,7 @@
         </TreeView>
         
 
-        <Border BorderBrush="Gray" BorderThickness="1,0,1,1" Grid.Row="1" >
+        <Border BorderBrush="Gray" BorderThickness="1,0,1,1" Grid.Row="1" Margin="5" >
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                     <GradientStop Color="#33000000" Offset="0" />
@@ -190,10 +191,19 @@
                 </LinearGradientBrush>
             </Border.Background>
 
-            <StackPanel HorizontalAlignment="Center" Margin="4" Orientation="Horizontal" >
-                <Button Command="{Binding LoadCommand}" Content="Load"/>
-                <TextBox x:Name="searchTextBox"  Margin="6,0" Text="{Binding TextFilterValue, UpdateSourceTrigger=PropertyChanged}" Width="150" />
-                <Button Command="{Binding FilterCommand}" Content="_Find" Padding="8,0" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="30" VerticalAlignment="Center">
+                <Button Command="{Binding LoadCommand}" Content="Load" Width="50"/>
+                <TextBox x:Name="SearchTextBox"  Margin="6,0" Text="{Binding TextFilterValue, UpdateSourceTrigger=PropertyChanged}"  Width="150"
+                         IsReadOnly="{Binding IsFilterReadOnly}" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding SetFilterNotReadOnly}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="LostFocus" >
+                            <i:InvokeCommandAction Command="{Binding SetFilterReadOnly}"/>
+                        </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                </TextBox>
             </StackPanel>
         </Border>
 

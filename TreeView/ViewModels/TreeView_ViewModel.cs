@@ -19,14 +19,16 @@ namespace TreeView.ViewModels {
         private ObservableCollection<CategoryViewModel> _categories;
         private string _textFilterValue;
         private Database _db;
+        private bool _isFilterReadOnly=false; 
         #endregion //Data
 
         #region Ctor
         public TreeView_ViewModel(Database db) {
             _db=db;
             _categories = new ObservableCollection<CategoryViewModel>();
-            FilterCommand = new DelegateCommand(OnFilter, () => true);
             LoadCommand=new DelegateCommand(OnLoad,()=>true);
+            SetFilterReadOnly = new DelegateCommand(OnSetFilterReadOnly,()=>true);
+            SetFilterNotReadOnly=new DelegateCommand(OnSetFilterNotReadOnly,()=>true);
         }
         #endregion //Ctor
 
@@ -34,29 +36,52 @@ namespace TreeView.ViewModels {
 
         public string TextFilterValue {
             get => _textFilterValue;
-            set { _textFilterValue = value; }
+            set {
+                SetProperty(ref _textFilterValue,value, OnFilter);
+            }
         }
 
+        public bool IsFilterReadOnly {
+            get=> _isFilterReadOnly;
+            set {
+                SetProperty(ref _isFilterReadOnly, value);
+            }
+        }
 
-        public DelegateCommand FilterCommand { get; private set; }
         public  DelegateCommand LoadCommand { get; private set; }
+        public  DelegateCommand SetFilterReadOnly { get; private set; }
+        public  DelegateCommand SetFilterNotReadOnly { get; private set; }
 
         private void OnFilter() {
             foreach (CategoryViewModel cat in _categories) {
                 cat.ApplyFilter(_textFilterValue);
-                };
             }
+        }
 
+        /// <summary>
+        /// This method clear txtFilter,  clear TreeView and load updated list of Categories
+        /// </summary>
         private void OnLoad() {
-            foreach (Category category in _db.GetCategoryTree()) {
+            _textFilterValue = String.Empty;
+            RaisePropertyChanged(nameof(TextFilterValue));
+
+            _categories.Clear();
+            List<Category> catList;
+            catList = _db.GetCategoryTree();
+            foreach (Category category in catList) {
                 _categories.Add(new CategoryViewModel(category));
             }
 
-            MessageBox.Show(_categories.Count.ToString());
             RaisePropertyChanged(nameof(Categories));
         }
 
-        
+        private void OnSetFilterReadOnly() {
+            IsFilterReadOnly = true;
+        }
+
+        private void OnSetFilterNotReadOnly() {
+            IsFilterReadOnly = false;
+        }
     }
 }
    
